@@ -1,0 +1,20 @@
+{
+	"manifest_version": 2,
+	"name": "WebsiteLock",
+	"version": "0.1",
+	"description": "Puts password on domains for max productivity",
+	"background":{
+		"scripts": ["background.js"]
+	},
+	"browser_action":{
+		"default_title": "WebsiteLock",
+		"default_icon": "icon.png",
+		"default_popup": "popup.html"
+	},
+	"options_page": "options.html",
+	"permissions":[
+		 "tabs",
+		 "storage",
+		 "<all_urls>"
+	]
+}
