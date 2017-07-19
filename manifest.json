@@ -2,6 +2,7 @@
 	"manifest_version": 2,
 	"name": "WebsiteLock",
 	"version": "0.1",
+	"icons" : { "128":"icon128.png" },
 	"description": "Puts password on domains for max productivity",
 	"background":{
 		"scripts": ["background.js"]

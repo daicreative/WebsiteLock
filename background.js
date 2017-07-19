@@ -1,3 +1,7 @@
+
+	chrome.storage.sync.get(function(data){
+							console.log("Data:"+JSON.stringify(data));
+	});
 chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
 	var parser=document.createElement('a');
 	parser.href=tab.url;
@@ -14,13 +18,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
 		}
 		if(block==true){
 	        chrome.tabs.update(tabId, {"url" : "blocked.html"});
-/*	        chrome.tabs.executeScript(null,{file:'blocked.js'}); */
-/*		   if (changeInfo.status == 'complete') {   
-		   	alert("done");
-		      chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-		         chrome.tabs.sendMessage(tabs[0].id, {action: "SendIt"}, function(response) {});  
-		      });
-		   }*/
 		   chrome.storage.sync.set({"base":tab.url});
 		}
 
