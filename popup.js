@@ -4,4 +4,8 @@ function clickHandler(e) {
 }
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('click-me').addEventListener('click', clickHandler);
+    document.getElementById('delete').onclick=function(){
+	chrome.storage.sync.clear();
+}
 });
+
