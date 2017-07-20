@@ -17,8 +17,8 @@ window.onload = function(){
 		var value=document.getElementById('saveLine').value;
 		var parser=document.createElement('a');
 		parser.href=value;
-		value=parser.hostname;
-		if(value!="" && !value.includes("hdnpcgknppclegidegcjckmeamcbblnd")){
+		if(value.includes("http://") || value.includes("https://")){
+			value=parser.hostname;
 			chrome.storage.sync.get(function(data){
 				if(data.blacklist==undefined){
 					data.blacklist=[[value,true]];

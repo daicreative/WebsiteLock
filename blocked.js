@@ -7,25 +7,14 @@ function randomGen() {
     return text;
 }
 
-function redirect(url){
-	chrome.tabs.update({"url":url});
-}
-function wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
-}
-
 window.onload = function(){
 	document.getElementById('entered').onpaste=function(e){
 		e.preventDefault();
 	}
 	var copy=randomGen();
 	document.getElementById("randomString").innerHTML = copy;
-	var ans=document.getElementById('answer');
-	ans.onsubmit=function(){
+	document.getElementById('answer').onsubmit=function(){
+		if(copy==document.getElementById('entered').value){
 			var parser=document.createElement('a');
 			chrome.storage.sync.get(function(data){
 				parser.href=data.base;
@@ -36,9 +25,11 @@ window.onload = function(){
 						chrome.storage.sync.set(data);
 					}
 				}
-				chrome.tabs.update({"url":data.base});
 			});
-			wait(.1);
+			chrome.storage.sync.get(function(data){
+				chrome.tabs.update(null,{"url":data.base});
+			});
 		}
+	}
 
 }
