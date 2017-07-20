@@ -23,11 +23,10 @@ window.onload = function(){
 					if(parser.hostname==data.blacklist[i][0]){
 						data.blacklist[i][1]=false;
 						chrome.storage.sync.set(data);
+						chrome.tabs.create({"url":data.base});
+						window.close();
 					}
 				}
-			});
-			chrome.storage.sync.get(function(data){
-				chrome.tabs.update(null,{"url":data.base});
 			});
 		}
 	}
