@@ -28,8 +28,8 @@ chrome.tabs.onRemoved.addListener(function(){
 			var l2=tabs.length;
 			for(var i=0;i<l;i++){
 				if(data.blacklist[i][1]==false){
+					var change=true;
 					for(var j=0;j<l2;j++){
-						var change=true;
 						parser.href=tabs[j].url;
 						if(parser.hostname==data.blacklist[i][0]){
 							change=false;
