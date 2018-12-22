@@ -20,10 +20,21 @@ window.onload = function(){
 				parser.href=data.base;
 				var l=data.blacklist.length;
 				for(var i=0;i<l;i++){
-					if(parser.hostname==data.blacklist[i][0]){
+					if(parser.hostname==data.blacklist[i][0]){	
+						chrome.alarms.getAll(function(alarms){
+							var timer=true;
+							for(var i=0;i<alarms.length;i++){
+								if(alarms[i].name=="bootyos"){
+									timer=false
+								}
+							}
+							if(timer==true){
+								chrome.alarms.create("bootyos", {delayInMinutes:5});
+							}
+							window.close();
+						});
 						data.blacklist[i][1]=false;
 						chrome.storage.sync.set(data);
-						window.close();
 						chrome.tabs.create({"url":data.base});
 					}
 				}
