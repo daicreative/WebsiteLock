@@ -32,6 +32,7 @@ window.onload = function(){
 								chrome.alarms.create("bootyos", {delayInMinutes:5});
 							}
 							window.close();
+
 						});
 						data.blacklist[i][1]=false;
 						chrome.storage.sync.set(data);

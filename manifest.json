@@ -18,6 +18,7 @@
 		"alarms",
 		 "tabs",
 		 "storage",
+		 "bookmarks",
 		 "<all_urls>"
 	]
 }

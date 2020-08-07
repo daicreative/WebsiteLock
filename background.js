@@ -3,7 +3,20 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
 	parser.href=tab.url;
 	chrome.storage.sync.get(function(data){
 		if(parser.href=="https://www.youtube.com/"){
-			chrome.tabs.update(tabId,{"url":"https://www.youtube.com/channel/UCQ8XFo9xXjbInPCwgcBolyg/playlists"});
+			chrome.bookmarks.search("top picks", function(array){
+				var folder = array[0];
+				chrome.bookmarks.getChildren(folder.id, function(bookmarks){
+					var index = Math.floor(Math.random() * bookmarks.length);
+					var bookmark = bookmarks[index];
+					var video_id = bookmark.url.split('v=')[1];
+					var ampersandPosition = video_id.indexOf('&');
+					if(ampersandPosition != -1) {
+						video_id = video_id.substring(0, ampersandPosition);
+					}
+					chrome.tabs.update(tabId,{"url":"https://www.youtube.com/embed/" + video_id + "?autoplay=1&controls=0"});
+				});
+			});
+					
 		}
 		else if(data.blacklist!=undefined){
 			var block=false;
@@ -13,7 +26,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
 					block=true;
 				}
 			}
-			if(block==true){
+			if(block && data.totalBlock){
+				chrome.tabs.update(tabId, {"url" : "https://www.youtube.com/embed/Dev36qc3l2s?autoplay=1&start=181&controls=0"});
+			}
+			else if(block==true){
 		        chrome.tabs.update(tabId, {"url" : "blocked.html"});
 			   chrome.storage.sync.set({"base":tab.url});
 			}
@@ -61,20 +77,26 @@ chrome.tabs.onRemoved.addListener(function(){
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm){
-	chrome.storage.sync.get(function(data){
-		var l=data.blacklist.length;
-		var parser=document.createElement('a');
-		parser.href="/";
-		chrome.tabs.query({},function(tabs){
-			for(var j=0;j<tabs.length;j++){
-				parser.href=tabs[j].url;
-				for(var i=0;i<l;i++){
-					if(data.blacklist[i][0]==parser.hostname){
-						chrome.tabs.remove(tabs[j].id);
+	if(alarm.name=="bootyos"){
+		chrome.storage.sync.get(function(data){
+			var l=data.blacklist.length;
+			var parser=document.createElement('a');
+			parser.href="/";
+			chrome.tabs.query({},function(tabs){
+				for(var j=0;j<tabs.length;j++){
+					parser.href=tabs[j].url;
+					for(var i=0;i<l;i++){
+						if(data.blacklist[i][0]==parser.hostname){
+							chrome.tabs.remove(tabs[j].id);
+						}
 					}
 				}
-			}
+			});
+			chrome.alarms.create("totally_blocked", {delayInMinutes:10});
 		});
-	});
-
+		chrome.storage.sync.set({"totalBlock":true});
+	}
+	else{
+		chrome.storage.sync.set({"totalBlock":false})
+	}
 });
