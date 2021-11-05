@@ -1,24 +1,25 @@
 {
 	"manifest_version": 2,
 	"name": "WebsiteLock",
-	"version": "0.1",
-	"icons" : { "128":"icon128.png" },
-	"description": "Puts password on domains for max productivity",
-	"background":{
+	"version": "1.1",
+	"icons": {
+		"128": "icon128.png"
+	},
+	"description": "Puts random password on domains for max productivity",
+	"background": {
 		"scripts": ["background.js"]
 	},
-	"browser_action":{
+	"browser_action": {
 		"default_title": "WebsiteLock",
 		"default_icon": "icon.png",
 		"default_popup": "popup.html"
 	},
 	"update_url": "https://www.google.com",
 	"options_page": "options.html",
-	"permissions":[
-		"alarms",
-		 "tabs",
-		 "storage",
-		 "bookmarks",
-		 "<all_urls>"
+	"permissions": [
+		"tabs",
+		"storage",
+		"bookmarks",
+		"<all_urls>"
 	]
 }

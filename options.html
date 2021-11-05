@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>WebsiteLock Options</title>
+	<script src="options.js"></script>
 </head>
+
 <body>
-	<h1>Copy and paste URL from address bar (typing anything less than the full address screws things up). Then hit save!</h1>
-	<textarea id="saveLine" style="display: block"></textarea>
-	<input type="button" id="save" value="Save Line">
-	<input type="button" id="delete" value="Clear All">
-		<script src="options.js"></script>
+	<h1>Add domains to check:</h1>
+	<form id="domain_form">
+		<input type="text" id="domain_text" autocomplete="off" placeholder="Enter domain here...">
+		<button type="submit" id="domain_submit">Add</button>
+	</form>
+
+	<div id="domains">
+		<h1>Domains</h1>
+	</div>
 
 </body>
+
 </html>
