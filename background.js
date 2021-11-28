@@ -3,7 +3,9 @@ skipURL = "";
 initializeDefaultValues();
 
 function initializeDefaultValues() {
-    chrome.storage.sync.set({'domains': {}});
+	chrome.storage.local.get('domains', function(domains){
+		if(domains == undefined) chrome.storage.local.set({'domains': {}});
+	});
 }
 
 chrome.tabs.onUpdated.addListener(function (tabId, changedInfo, tab) {
@@ -13,13 +15,13 @@ chrome.tabs.onUpdated.addListener(function (tabId, changedInfo, tab) {
 	var url = new URL(tab.url);
 	var hostname = url.hostname.replace("www.", "");
 	
-	chrome.storage.sync.get(function (data) {
+	chrome.storage.local.get(function (data) {
 		// Check if hostname is a checked domain
 		var domain = data.domains[hostname];
 		if (domain != undefined) {
 			var block = false;
-			for (var i = 0; i < domain.length; i++) {
-				var regex = new RegExp(domain[i]);
+			for (var i = 0; i < domain.regexes.length; i++) {
+				var regex = new RegExp(domain.regexes[i]);
 
 				if (regex.test(url.pathname)) {
 					block = true;

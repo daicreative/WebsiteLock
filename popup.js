@@ -7,7 +7,7 @@ function clickHandler(e) {
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('click-me').addEventListener('click', clickHandler);
     document.getElementById('delete').onclick = function () {
-        chrome.storage.sync.clear();
-        chrome.storage.sync.set({'domains': {}});
+        chrome.storage.local.clear();
+        chrome.storage.local.set({'domains': {}});
     }
 });

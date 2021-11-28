@@ -1,21 +1,31 @@
-function randomGen() {
+function randomGen(redirectURL) {
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	for (var i = 0; i < 15; i++) {
-		text += possible.charAt(Math.floor(Math.random() * possible.length));
-	}
-	return text;
+
+	var url = new URL(redirectURL);
+	var hostname = url.hostname.replace("www.", "");
+
+	var len = 25;
+	chrome.storage.local.get(function (data) {
+		var domain = data.domains[hostname]
+		if(domain != undefined){
+			len = domain.keyLen;
+			for (var i = 0; i < len; i++) {
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			}
+			document.getElementById("randomString").innerHTML = text;
+		}
+	});
 }
 
 window.onload = function () {
 	document.getElementById('entered').onpaste = function (e) {
 		e.preventDefault();
 	}
-	var copy = randomGen();
-	document.getElementById("randomString").innerHTML = copy;
+	var url = (new URLSearchParams(window.location.search)).get("redirect");
+	randomGen(url);
 	document.getElementById('answer').onsubmit = function () {
-		if (copy == document.getElementById('entered').value) {
-			var url = (new URLSearchParams(window.location.search)).get("redirect");
+		if (document.getElementById("randomString").innerHTML == document.getElementById('entered').value) {
 			chrome.extension.getBackgroundPage().skipURL = url;
 			window.location.replace(url);
 		}
